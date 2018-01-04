@@ -38,15 +38,19 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/advert/{id}", name="oc_platform_view")
+     * @Route("/view", name="oc_platform_view")
      */
-    public function viewAction(Request $request, $id)
+    public function viewAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $advert = $em->getRepository('BayardTestPlatformBundle:Advert')->find($id);
+        $applications = $em->getRepository('BayardTestPlatformBundle:Application')->findAll();
 
-    	return $this->render('@BayardTestPlatform/Default/view.html.twig', array('advert' => $advert));
+        if (null === $applications) {
+            throw new NotFoundHttpException("la table application est vide");
+        }
+
+    	return $this->render('@BayardTestPlatform/Default/view.html.twig', array('applications' => $applications));
     }
 
     /**
@@ -105,7 +109,7 @@ class DefaultController extends Controller
         $em->flush();
 
         // Si on n'est pas en POST, alors on affiche le formulaire
-        return $this->render('@BayardTestPlatform/Default/view.html.twig', array('advert' => $advert));
+        return $this->render('@BayardTestPlatform/Default/view.html.twig');
     }
 
     /**

@@ -1,10 +1,12 @@
 <html>
   <body>
-  	<div>
-    	{% if advert.image is not null %}
-			<img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}">
-		{% endif %}
-    </div>
-    Hello {{ advert.author }}!
+  		{% for application in applications %}
+			{% if application.advert.image is not null %}
+				<div>
+					<img src="{{ application.advert.image.url }}" alt="{{ application.advert.image.alt }}">
+					Hello {{ application.advert.author }}!
+				</div>
+			{% endif %}
+		{% endfor %}
   </body>
 </html>
