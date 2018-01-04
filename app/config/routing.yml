@@ -1,0 +1,7 @@
+bayard_test_platform:
+    resource: '@BayardTestPlatformBundle/Controller/'
+    type: annotation
+
+# app:
+#     resource: '@AppBundle/Controller/'
+#     type: annotation

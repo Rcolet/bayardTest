@@ -1,0 +1,10 @@
+<html>
+  <body>
+  	<div>
+    	{% if advert.image is not null %}
+			<img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}">
+		{% endif %}
+    </div>
+    Hello {{ advert.author }}!
+  </body>
+</html>
