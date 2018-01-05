@@ -2,6 +2,7 @@
 
 namespace BayardTest\PlatformBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -60,12 +61,16 @@ class Advert
     */
     private $image;
 
-
+    /**
+    * @ORM\ManyToMany(targetEntity="BayardTest\PlatformBundle\Entity\Category", cascade={"persist"})
+    */
+    private $categories;
 
     public function __construct()
     {
         // Par défaut, la date de l'annonce est la date d'aujourd'hui
         $this-> date = new \Datetime();
+        $this->categories = new ArrayCollection();
     }
 
     /**
@@ -220,5 +225,41 @@ class Advert
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Add category.
+     *
+     * @param \BayardTest\PlatformBundle\Entity\Category $category
+     *
+     * @return Advert
+     */
+    public function addCategory(\BayardTest\PlatformBundle\Entity\Category $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category.
+     *
+     * @param \BayardTest\PlatformBundle\Entity\Category $category
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeCategory(\BayardTest\PlatformBundle\Entity\Category $category)
+    {
+        return $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get categories.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 }
