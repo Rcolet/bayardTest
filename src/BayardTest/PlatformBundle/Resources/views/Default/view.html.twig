@@ -4,7 +4,13 @@
 			{% if application.advert.image is not null %}
 				<div>
 					<img src="{{ application.advert.image.url }}" alt="{{ application.advert.image.alt }}">
-					Hello {{ application.advert.author }}!
+					<br>Hello {{ application.advert.author }}!
+					{% if not application.advert.categories.empty %}
+					<br>Catégoris :
+						{% for category in application.advert.categories %}
+						    <br>- {{ category.name }}{% if not loop.last %}; {% endif %}
+						{% endfor %}
+					{% endif %}
 				</div>
 			{% endif %}
 		{% endfor %}

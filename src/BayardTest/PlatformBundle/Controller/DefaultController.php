@@ -95,6 +95,9 @@ class DefaultController extends Controller
         $category2 = new Category();
         $category2->setName("BD");
 
+        // On boucle sur les catégories pour les lier à l'annonce
+        $advert->addCategory($category1);
+        $advert->addCategory($category2);
 
         // On récupère l'EntityManager
         $em = $this->getDoctrine()->getManager();
