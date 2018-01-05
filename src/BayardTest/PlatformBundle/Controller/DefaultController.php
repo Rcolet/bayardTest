@@ -5,6 +5,7 @@ namespace BayardTest\PlatformBundle\Controller;
 use BayardTest\PlatformBundle\Entity\Advert;
 use BayardTest\PlatformBundle\Entity\Image;
 use BayardTest\PlatformBundle\Entity\Application;
+use BayardTest\PlatformBundle\Entity\Category;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -89,6 +90,11 @@ class DefaultController extends Controller
         $application1->setAdvert($advert);
         $application2->setAdvert($advert);
 
+        $category1 = new Category();
+        $category1->setName("Web");
+        $category2 = new Category();
+        $category2->setName("BD");
+
 
         // On récupère l'EntityManager
         $em = $this->getDoctrine()->getManager();
@@ -105,11 +111,14 @@ class DefaultController extends Controller
         $em->persist($application1);
         $em->persist($application2);
 
+        $em->persist($category1);
+        $em->persist($category2);
+
         // Étape 2 : On déclenche l'enregistrement
         $em->flush();
 
         // Si on n'est pas en POST, alors on affiche le formulaire
-        return $this->render('@BayardTestPlatform/Default/view.html.twig');
+        return $this->redirectToRoute('oc_platform_view');
     }
 
     /**
@@ -126,7 +135,7 @@ class DefaultController extends Controller
         }
         $em->flush();
 
-        return $this->redirectToRoute('oc_platform_view', array('id' => " : no, I kill you"));
+        return $this->redirectToRoute('oc_platform_view');
     }
 
 
@@ -178,6 +187,39 @@ class DefaultController extends Controller
             'listAdverts' => $listAdverts
         ));
 
+    }
+
+    /**
+     * @Route("/edit", name="oc_platform_edit")
+     */
+    public function editAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        // On récupère l'annonce $id
+        $advert = $em->getRepository('BayardTestPlatformBundle:Advert')->find($id);
+
+        if (null === $advert) {
+            throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+        }
+
+
+        // La méthode findAll retourne toutes les catégories de la base de données
+        $listCategories = $em->getRepository('BayardTestPlatformBundle:Category')->findAll();
+
+
+        // On boucle sur les catégories pour les lier à l'annonce
+        foreach ($listCategories as $category) {
+            $advert->addCategory($category);
+        }
+
+        // Pour persister le changement dans la relation, il faut persister l'entité propriétaire
+        // Ici, Advert est le propriétaire, donc inutile de la persister car on l'a récupérée depuis Doctrine
+
+        // Étape 2 : On déclenche l'enregistrement
+        $em->flush();
+
+        // … reste de la méthode
     }
 
 }
