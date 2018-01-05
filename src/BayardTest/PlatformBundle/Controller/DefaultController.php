@@ -190,7 +190,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/edit", name="oc_platform_edit")
+     * @Route("/edit/{id}", name="oc_platform_edit")
      */
     public function editAction($id, Request $request)
     {
@@ -220,6 +220,7 @@ class DefaultController extends Controller
         $em->flush();
 
         // … reste de la méthode
+        return $this->redirectToRoute('oc_platform_view');
     }
 
 }
