@@ -223,4 +223,33 @@ class DefaultController extends Controller
         return $this->redirectToRoute('oc_platform_view');
     }
 
+    /**
+     * @Route("/remove/{id}", name="oc_platform_remove")
+     */
+    public function deleteAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        // On récupère l'annonce $id
+        $advert = $em->getRepository('BayardTestPlatformBundle:Advert')->find($id);
+
+        if (null === $advert) {
+            throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+        }
+
+        // On boucle sur les catégories de l'annonce pour les supprimer
+        foreach ($advert->getCategories() as $category) {
+            $advert->removeCategory($category);
+        }
+
+        // Pour persister le changement dans la relation, il faut persister l'entité propriétaire
+        // Ici, Advert est le propriétaire, donc inutile de la persister car on l'a récupérée depuis Doctrine
+
+        // On déclenche la modification
+        $em->flush();
+
+        // ...
+        return $this->redirectToRoute('oc_platform_view');
+    }
+
 }
