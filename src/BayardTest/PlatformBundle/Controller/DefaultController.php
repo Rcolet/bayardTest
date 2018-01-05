@@ -89,8 +89,8 @@ class DefaultController extends Controller
 
 
         // On lie les candidatures à l'annonce
-        $advert->setApplication($application1);
-        $advert->setApplication($application2);
+        $advert->addApplication($application1);
+        $advert->addApplication($application2);
 
         $category1 = new Category();
         $category1->setName("Web");
@@ -141,11 +141,11 @@ class DefaultController extends Controller
 
         // Étape 1 ter : pour cette relation pas de cascade lorsqu'on persiste Advert, car la relation est
         // définie dans l'entité Application et non Advert. On doit donc tout persister à la main ici.
-        //$em->persist($application1);
-        //$em->persist($application2);
+        $em->persist($application1);
+        $em->persist($application2);
 
-        //$em->persist($category1);
-        //$em->persist($category2);
+        $em->persist($category1);
+        $em->persist($category2);
 
         // Étape 2 : On déclenche l'enregistrement
         $em->flush();
@@ -214,7 +214,7 @@ class DefaultController extends Controller
             array('id' => 9, 'title' => 'Offre de stage webdesigner')
         );
 
-        return $this->render('OCPlatformBundle:Default:menu.html.twig', array(
+        return $this->render('@BayardTestPlatform/Default/menu.html.twig', array(
             // Tout l'intérêt est ici : le contrôleur passe
             // les variables nécessaires au template !
             'listAdverts' => $listAdverts
