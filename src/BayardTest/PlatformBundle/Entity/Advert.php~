@@ -66,6 +66,12 @@ class Advert
     */
     private $categories;
 
+    /**
+    * @ORM\OneToMany(targetEntity="BayardTest\PlatformBundle\Entity\Applications", mappedBy="advert")
+    * @ORM\JoinColumn(nullable=false)
+    */
+    private $applications;
+
     public function __construct()
     {
         // Par défaut, la date de l'annonce est la date d'aujourd'hui

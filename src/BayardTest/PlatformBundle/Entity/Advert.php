@@ -66,6 +66,12 @@ class Advert
     */
     private $categories;
 
+    /**
+    * @ORM\OneToMany(targetEntity="BayardTest\PlatformBundle\Entity\Application", mappedBy="advert")
+    * @ORM\JoinColumn(nullable=false)
+    */
+    private $applications;
+
     public function __construct()
     {
         // Par défaut, la date de l'annonce est la date d'aujourd'hui
@@ -261,5 +267,43 @@ class Advert
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    /**
+     * Add application.
+     *
+     * @param \BayardTest\PlatformBundle\Entity\Applications $application
+     *
+     * @return Advert
+     */
+    public function addApplication(\BayardTest\PlatformBundle\Entity\Applications $application)
+    {
+        $this->applications[] = $application;
+
+        $application->setAdvert($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove application.
+     *
+     * @param \BayardTest\PlatformBundle\Entity\Applications $application
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeApplication(\BayardTest\PlatformBundle\Entity\Applications $application)
+    {
+        return $this->applications->removeElement($application);
+    }
+
+    /**
+     * Get applications.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getApplications()
+    {
+        return $this->applications;
     }
 }
