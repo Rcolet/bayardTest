@@ -3,6 +3,7 @@
 namespace BayardTest\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use BayardTest\PlatformBundle\Entity\Advert;
 
 /**
  * Application
@@ -38,12 +39,12 @@ class Application
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="date", type="datetime", nullable=true)
      */
     private $date;
 
     /**
-    * @ORM\ManyToOne(targetEntity="OC\PlatformBundle\Entity\Advert")
+    * @ORM\ManyToOne(targetEntity="Advert", inversedBy="application")
     * @ORM\JoinColumn(nullable=false)
     */
     private $advert;
@@ -129,5 +130,29 @@ class Application
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set advert.
+     *
+     * @param Advert $advert
+     *
+     * @return Application
+     */
+    public function setAdvert(Advert $advert)
+    {
+        $this->advert = $advert;
+
+        return $this;
+    }
+
+    /**
+     * Get advert.
+     *
+     * @return Advert
+     */
+    public function getAdvert()
+    {
+        return $this->advert;
     }
 }

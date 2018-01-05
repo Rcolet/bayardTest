@@ -272,11 +272,11 @@ class Advert
     /**
      * Add application.
      *
-     * @param \BayardTest\PlatformBundle\Entity\Applications $application
+     * @param \BayardTest\PlatformBundle\Entity\Application $application
      *
      * @return Advert
      */
-    public function addApplication(\BayardTest\PlatformBundle\Entity\Applications $application)
+    public function addApplication(\BayardTest\PlatformBundle\Entity\Application $application)
     {
         $this->applications[] = $application;
 
@@ -288,11 +288,11 @@ class Advert
     /**
      * Remove application.
      *
-     * @param \BayardTest\PlatformBundle\Entity\Applications $application
+     * @param \BayardTest\PlatformBundle\Entity\Application $application
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeApplication(\BayardTest\PlatformBundle\Entity\Applications $application)
+    public function removeApplication(\BayardTest\PlatformBundle\Entity\Application $application)
     {
         return $this->applications->removeElement($application);
     }
@@ -305,5 +305,8 @@ class Advert
     public function getApplications()
     {
         return $this->applications;
+
+        // Et si notre relation était facultative (nullable=true, ce qui n'est pas notre cas ici attention) :        
+        // $application->setAdvert(null);
     }
 }

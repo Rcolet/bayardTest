@@ -89,8 +89,8 @@ class DefaultController extends Controller
 
 
         // On lie les candidatures à l'annonce
-        $application1->setAdvert($advert);
-        $application2->setAdvert($advert);
+        $advert->setApplication($application1);
+        $advert->setApplication($application2);
 
         $category1 = new Category();
         $category1->setName("Web");
