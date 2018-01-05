@@ -6,6 +6,8 @@ use BayardTest\PlatformBundle\Entity\Advert;
 use BayardTest\PlatformBundle\Entity\Image;
 use BayardTest\PlatformBundle\Entity\Application;
 use BayardTest\PlatformBundle\Entity\Category;
+use BayardTest\PlatformBundle\Entity\Skill;
+use BayardTest\PlatformBundle\Entity\AdvertSkill;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -99,8 +101,36 @@ class DefaultController extends Controller
         $advert->addCategory($category1);
         $advert->addCategory($category2);
 
+        // Liste des noms de compétences à ajouter
+        $names = array('PHP', 'Symfony', 'C++', 'Java', 'Photoshop', 'Blender', 'Bloc-note');
+
         // On récupère l'EntityManager
         $em = $this->getDoctrine()->getManager();
+
+        foreach ($names as $name) {
+
+            // On crée la compétence
+            $skill = new Skill();
+            $skill->setName($name);
+
+            // On crée une nouvelle « relation entre 1 annonce et 1 compétence »
+            $advertSkill = new AdvertSkill();
+
+            // On la lie à l'annonce, qui est ici toujours la même
+            $advertSkill->setAdvert($advert);
+
+            // On la lie à la compétence, qui change ici dans la boucle foreach
+            $advertSkill->setSkill($skill);
+
+            // Arbitrairement, on dit que chaque compétence est requise au niveau 'Expert'
+            $advertSkill->setLevel('Expert');
+
+            // On la persiste
+            $em->persist($skill);
+
+            // Et bien sûr, on persiste cette entité de relation, propriétaire des deux autres relations
+            $em->persist($advertSkill);
+        }
 
         // Étape 1 : On « persiste » l'entité
         $em->persist($advert);
@@ -111,11 +141,11 @@ class DefaultController extends Controller
 
         // Étape 1 ter : pour cette relation pas de cascade lorsqu'on persiste Advert, car la relation est
         // définie dans l'entité Application et non Advert. On doit donc tout persister à la main ici.
-        $em->persist($application1);
-        $em->persist($application2);
+        //$em->persist($application1);
+        //$em->persist($application2);
 
-        $em->persist($category1);
-        $em->persist($category2);
+        //$em->persist($category1);
+        //$em->persist($category2);
 
         // Étape 2 : On déclenche l'enregistrement
         $em->flush();
