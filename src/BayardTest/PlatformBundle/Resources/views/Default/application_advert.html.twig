@@ -1,0 +1,21 @@
+{% extends "vueMere.html.twig" %}
+
+{% block title %}
+	{{ parent() }} - Index
+{% endblock %}
+
+{% block body %}
+    Hello World!
+
+    {#{{ render(controller("@BayardTestPlatform/Default/menu")) }}#}
+
+    {% for application in applications %}
+	    <br>applcation => annonces : {{ application.author }}
+	    	<br>Content : {{ application.content }}
+	    	<br>- {{ application.advert.title }}
+    {% endfor %}
+{% endblock %}
+
+{% block footer %}
+	{{ include("@BayardTestPlatform/Default/footer.html.twig") }}
+{% endblock %}

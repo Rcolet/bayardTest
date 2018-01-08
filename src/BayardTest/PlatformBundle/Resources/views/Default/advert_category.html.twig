@@ -1,0 +1,21 @@
+
+{% extends "vueMere.html.twig" %}
+
+{% block title %}
+	{{ parent() }} - Index
+{% endblock %}
+
+{% block body %}
+    Hello World!
+
+    {#{{ render(controller("@BayardTestPlatform/Default/menu")) }}#}
+
+    <br>liste des annonces de catégorie : {{ cat }}
+    {% for advert in adverts %}
+    	<br>- {{ advert.title }}
+    {% endfor %}
+{% endblock %}
+
+{% block footer %}
+	{{ include("@BayardTestPlatform/Default/footer.html.twig") }}
+{% endblock %}

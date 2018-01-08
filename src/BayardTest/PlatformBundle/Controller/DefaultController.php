@@ -286,7 +286,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/annonce/category/{cat}", name="oc_platform_annonce_category")
+     * @Route("/advert/category/{cat}", name="oc_platform_advert_category")
      */
     public function listAdvertWithCategoriesAction($cat)
     {
@@ -297,9 +297,26 @@ class DefaultController extends Controller
 
 
         // … reste de la méthode
-        return $this->render('@BayardTestPlatform/Default/annonce_category.html.twig', array(
+        return $this->render('@BayardTestPlatform/Default/advert_category.html.twig', array(
             'cat' => $cat,
             'adverts' => $adverts
+        ));
+    }
+
+    /**
+     * @Route("/application/advert/{limit}", name="oc_platform_application_advert")
+     */
+    public function advertApplicationAction($limit)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        // On récupère l'annonce $id
+        $applications = $em->getRepository('BayardTestPlatformBundle:Application')->getApplicationsWithAdvert($limit);
+
+
+        // … reste de la méthode
+        return $this->render('@BayardTestPlatform/Default/application_advert.html.twig', array(
+            'applications' => $applications
         ));
     }
 }
