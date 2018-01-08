@@ -4,6 +4,7 @@ namespace BayardTest\PlatformBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Advert
@@ -89,6 +90,13 @@ class Advert
         $this-> date = new \Datetime();
         $this->categories = new ArrayCollection();
     }
+
+    /**
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     */
+    private $slug;
+
 
     /**
      * Get id.
@@ -352,5 +360,39 @@ class Advert
     {
 
         $this->setUpdatedAt(new \Datetime());
+    }
+
+    /**
+     * Set nbApplications.
+     *
+     * @param int $nbApplications
+     *
+     * @return Advert
+     */
+    public function setNbApplications($nbApplications)
+    {
+        $this->nbApplications = $nbApplications;
+
+        return $this;
+    }
+
+    /**
+     * Get nbApplications.
+     *
+     * @return int
+     */
+    public function getNbApplications()
+    {
+        return $this->nbApplications;
+    }
+
+     public function increaseApplication()
+    {
+        $this->nbApplications++;
+    }
+
+    public function decreaseApplication()
+    {
+        $this->nbApplications--;
     }
 }

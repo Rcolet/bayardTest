@@ -338,4 +338,27 @@ class DefaultController extends Controller
 
         return $this->redirectToRoute('oc_platform_view');
     }
+
+    /**
+     * @Route("/test/slug", name="oc_platform_test_slug")
+     */
+    public function testSlugAction()
+    {
+        $advert = new Advert();
+        $advert->setTitle("Recherche développeur !");
+        $advert->setAuthor('Alexandre');
+        $advert->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…");
+
+        $image = new Image();
+        $image->setUrl('http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg');
+        $image->setAlt('Job de rêve');
+        $advert->setImage($image);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($advert);
+        $em->flush(); // C'est à ce moment qu'est généré le slug
+
+        return new Response('Slug généré : '.$advert->getSlug());
+        // Affiche « Slug généré : recherche-developpeur »
+    }
 }

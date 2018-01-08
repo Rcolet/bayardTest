@@ -45,3 +45,9 @@ services:
     #     resource: '../../src/BayardTest/PlatformBundle/Controller'
     #     public: true
     #     tags: ['controller.service_arguments']
+
+# Stof\DoctrineExtensionsBundle configuration
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true
