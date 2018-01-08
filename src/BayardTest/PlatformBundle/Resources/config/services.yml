@@ -2,3 +2,13 @@ services:
 #    bayard_test_platform.example:
 #        class: BayardTest\PlatformBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
+    bayard_test_platform.email.application_mailer:
+        class: BayardTest\PlatformBundle\Email\ApplicationMailer
+        arguments:
+            - "@mailer"
+    bayard_test_platform.doctrine_listener.application_creation:
+        class: BayardTest\PlatformBundle\DoctrineListener\ApplicationCreationListener
+        arguments:
+          - "@bayard_test_platform.email.application_mailer"
+        tags:
+          - { name: doctrine.event_listener, event: postPersist }
