@@ -285,4 +285,21 @@ class DefaultController extends Controller
         return $this->redirectToRoute('oc_platform_view');
     }
 
+    /**
+     * @Route("/annonce/category/{cat}", name="oc_platform_annonce_category")
+     */
+    public function listAdvertWithCategoriesAction($cat)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        // On récupère l'annonce $id
+        $adverts = $em->getRepository('BayardTestPlatformBundle:Advert')->getAdvertWithCategories([$cat]);
+
+
+        // … reste de la méthode
+        return $this->render('@BayardTestPlatform/Default/annonce_category.html.twig', array(
+            'cat' => $cat,
+            'adverts' => $adverts
+        ));
+    }
 }
