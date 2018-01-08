@@ -4,7 +4,7 @@
 			{% if application.advert.image is not null %}
 				<div>
 					<img src="{{ application.advert.image.url }}" alt="{{ application.advert.image.alt }}">
-					<br>Hello {{ application.advert.author }}!
+					<br>Hello {{ application.advert.author }} : {{ application.advert.date|date("m/d/Y") }}!
 					{% if not application.advert.categories.empty %}
 					<br>Catégoris :
 						{% for category in application.advert.categories %}

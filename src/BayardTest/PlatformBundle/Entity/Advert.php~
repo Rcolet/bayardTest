@@ -67,10 +67,15 @@ class Advert
     private $categories;
 
     /**
-    * @ORM\OneToMany(targetEntity="BayardTest\PlatformBundle\Entity\Applications", mappedBy="advert")
+    * @ORM\OneToMany(targetEntity="BayardTest\PlatformBundle\Entity\Application", mappedBy="advert")
     * @ORM\JoinColumn(nullable=false)
     */
     private $applications;
+
+    /**
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     public function __construct()
     {
@@ -267,5 +272,46 @@ class Advert
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    /**
+     * Add application.
+     *
+     * @param \BayardTest\PlatformBundle\Entity\Application $application
+     *
+     * @return Advert
+     */
+    public function addApplication(\BayardTest\PlatformBundle\Entity\Application $application)
+    {
+        $this->applications[] = $application;
+
+        $application->setAdvert($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove application.
+     *
+     * @param \BayardTest\PlatformBundle\Entity\Application $application
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeApplication(\BayardTest\PlatformBundle\Entity\Application $application)
+    {
+        return $this->applications->removeElement($application);
+    }
+
+    /**
+     * Get applications.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getApplications()
+    {
+        return $this->applications;
+
+        // Et si notre relation était facultative (nullable=true, ce qui n'est pas notre cas ici attention) :        
+        // $application->setAdvert(null);
     }
 }

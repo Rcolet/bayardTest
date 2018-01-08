@@ -319,4 +319,23 @@ class DefaultController extends Controller
             'applications' => $applications
         ));
     }
+
+    /**
+     * @Route("/advert/update", name="oc_platform_advert_update")
+     */
+    public function advertUpdateAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $adverts = $em->getRepository('BayardTestPlatformBundle:Advert')->findByAuthor('Alexandre');
+
+        foreach ($adverts as $advert) {
+            $advert->setTitle("Recherche développeur web");
+            $em->persist($advert);
+        }
+
+        $em->flush();
+
+        return $this->redirectToRoute('oc_platform_view');
+    }
 }
