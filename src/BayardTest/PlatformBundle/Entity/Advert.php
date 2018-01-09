@@ -59,7 +59,7 @@ class Advert
 
     /**
     * @ORM\OneToOne(targetEntity="BayardTest\PlatformBundle\Entity\Image", cascade={"persist"})
-    * @ORM\JoinColumn(nullable=false)
+    * @ORM\JoinColumn(nullable=true)
     */
     private $image;
 

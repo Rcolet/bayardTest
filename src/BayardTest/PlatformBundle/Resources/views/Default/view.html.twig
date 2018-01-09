@@ -1,13 +1,13 @@
 <html>
   <body>
-  		{% for application in applications %}
-			{% if application.advert.image is not null %}
+  		{% for advert in adverts %}
+			{% if advert.image is not null %}
 				<div>
-					<img src="{{ application.advert.image.url }}" alt="{{ application.advert.image.alt }}">
-					<br>Hello {{ application.advert.author }} : {{ application.advert.date|date("m/d/Y") }}!
-					{% if not application.advert.categories.empty %}
+					<img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}">
+					<br>Hello {{ advert.author }} : {{ advert.date|date("m/d/Y") }}!
+					{% if not advert.categories.empty %}
 					<br>Catégoris :
-						{% for category in application.advert.categories %}
+						{% for category in advert.categories %}
 						    <br>- {{ category.name }}{% if not loop.last %}; {% endif %}
 						{% endfor %}
 					{% endif %}

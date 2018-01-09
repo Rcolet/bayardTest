@@ -17,6 +17,15 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
+use BayardTest\PlatformBundle\Form\AdvertType;
+
 
 /**
      * @Route("/platform")
@@ -47,13 +56,13 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $applications = $em->getRepository('BayardTestPlatformBundle:Application')->findAll();
+        $adverts = $em->getRepository('BayardTestPlatformBundle:Advert')->findAll();
 
-        if (null === $applications) {
+        if (null === $adverts) {
             throw new NotFoundHttpException("la table application est vide");
         }
 
-    	return $this->render('@BayardTestPlatform/Default/view.html.twig', array('applications' => $applications));
+    	return $this->render('@BayardTestPlatform/Default/view.html.twig', array('adverts' => $adverts));
     }
 
     /**
@@ -61,7 +70,7 @@ class DefaultController extends Controller
      */
     public function addAction(Request $request)
     {   
-        // Création de l'entité Advert
+        /*// Création de l'entité Advert
         $advert = new Advert();
         $advert->setTitle('Recherche développeur Symfony.');
         $advert->setAuthor('Alexandre');
@@ -151,7 +160,32 @@ class DefaultController extends Controller
         $em->flush();
 
         // Si on n'est pas en POST, alors on affiche le formulaire
-        return $this->redirectToRoute('oc_platform_view');
+        return $this->redirectToRoute('oc_platform_view');*/
+
+
+        $advert = new Advert();
+
+        $form = $this->createForm(AdvertType::class, $advert);
+        // $form = $this->get('form.factory')->create(AdvertType::class, $advert);
+
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($advert);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+
+                return $this->redirectToRoute('oc_platform_view', array('id' => $advert->getId()));
+            }
+        }
+
+        return $this->render('@BayardTestPlatform/Default/add.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     /**
