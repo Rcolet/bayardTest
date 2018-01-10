@@ -189,7 +189,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/remove", name="oc_platform_remove")
+     * @Route("/remove/", name="oc_platform_remove")
      */
     public function removeAction(Request $request)
     {
@@ -200,6 +200,21 @@ class DefaultController extends Controller
         foreach ($advert as  $tmp) {
             $em->remove($tmp);
         }
+        $em->flush();
+
+        return $this->redirectToRoute('oc_platform_view');
+    }
+
+    /**
+     * @Route("/remove/advert/{id}", name="oc_platform_remove_advert")
+     */
+    public function removeAdvertAction(Request $request, $id)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $advert = $em->getRepository('BayardTestPlatformBundle:Advert')->find($id);
+        $em->remove($advert);
         $em->flush();
 
         return $this->redirectToRoute('oc_platform_view');

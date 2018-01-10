@@ -4,7 +4,7 @@
 			{% if advert.image is not null %}
 				<div>
 					<img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}">
-					<br>Hello {{ advert.author }} : {{ advert.date|date("m/d/Y") }}!
+					<br>Hello {{ advert.author }} : {{ advert.date|date("m/d/Y") }}! <a href="{{ path('oc_platform_remove_advert', {'id': advert.id}) }}">(x)</a>
 					{% if not advert.categories.empty %}
 					<br>Catégoris :
 						{% for category in advert.categories %}
