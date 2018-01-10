@@ -134,3 +134,11 @@ assetic:
                 - "%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.woff"
 
             output: "fonts/glyphicons-halflings-regular.woff"
+
+monolog:
+    handlers:
+        rolling:
+            type: stream
+            path: '%kernel.logs_dir%/%kernel.environment%/rolling.log'
+            level: info
+            channels: [doctrine]

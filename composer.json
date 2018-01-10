@@ -21,6 +21,7 @@
     },
     "require": {
         "php": ">=5.5.9",
+        "bayardev/rolling-log": "dev-serialize-dev",
         "bayardev/shared-tools-bundle": "^1.0",
         "components/jquery": "^3.1",
         "doctrine/doctrine-bundle": "^1.6",
