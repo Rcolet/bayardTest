@@ -5,10 +5,11 @@
 {% endblock %}
 
 {% block body %}
+	<h3><a href="{{ path('oc_platform_add') }}">(Ajouter)</a></h3>
     {% for advert in adverts %}
 			<div>
 				{% if advert.image is not null %}
-					<img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}"> <a href="{{ path('oc_platform_remove_image_adverts', {'id':  advert.images.id}) }}">(x)</a>
+					<img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}"> <a href="{{ path('oc_platform_remove_image_adverts', {'id':  advert.image.id}) }}">(x)</a>
 				{% endif %}
 				<br>Hello {{ advert.author }} : {{ advert.date|date("m/d/Y") }} <a href="{{ path('oc_platform_remove_advert', {'id': advert.id}) }}">(x)</a>
 				{% if not advert.categories.empty %}
@@ -17,6 +18,7 @@
 					    <br>- {{ category.name }}{% if not loop.last %}; {% endif %}
 					{% endfor %}
 				{% endif %}
+				<h3> <a href="{{ path('oc_platform_edit', {'id': advert.id}) }}">(Modifier)</a></h3>
 			</div>
 		{% endfor %}
 {% endblock %}

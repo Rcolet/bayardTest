@@ -58,19 +58,20 @@ class Advert
     private $published = true;
 
     /**
-    * @ORM\OneToOne(targetEntity="BayardTest\PlatformBundle\Entity\Image", cascade={"persist"})
+    * @ORM\OneToOne(targetEntity="BayardTest\PlatformBundle\Entity\Image", cascade={"persist", "remove"})
     * @ORM\JoinColumn(nullable=true)
     */
     private $image;
 
     /**
-    * @ORM\ManyToMany(targetEntity="BayardTest\PlatformBundle\Entity\Category", cascade={"persist"})
+    * @ORM\ManyToMany(targetEntity="BayardTest\PlatformBundle\Entity\Category", cascade={"persist", "remove"})
+    * @ORM\JoinColumn(nullable=true)
     */
     private $categories;
 
     /**
-    * @ORM\OneToMany(targetEntity="BayardTest\PlatformBundle\Entity\Application", mappedBy="advert")
-    * @ORM\JoinColumn(nullable=false)
+    * @ORM\OneToMany(targetEntity="BayardTest\PlatformBundle\Entity\Application", mappedBy="advert", cascade={"remove"})
+    * @ORM\JoinColumn(nullable=true)
     */
     private $applications;
 

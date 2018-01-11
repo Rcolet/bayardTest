@@ -112,6 +112,80 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/addAuto", name="oc_platform_add_auto")
+     */
+    public function addAutoAction(Request $request)
+    {   
+        // Création de l'entité Advert
+        $advert = new Advert();
+        $advert->setTitle('Recherche développeur Symfony.');
+        $advert->setAuthor('Alexandre');
+        $advert->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…");
+        // Création de l'entité Image
+        $image = new Image();
+        $image->setUrl('http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg');
+        $image->setAlt('Job de rêve');
+        // On lie l'image à l'annonce
+        $advert->setImage($image);
+        // Création d'une première candidature
+        $application1 = new Application();
+        $application1->setAuthor('Marine');
+        $application1->setContent("J'ai toutes les qualités requises.");
+        $application1->setDate(new \DateTime());
+        // Création d'une deuxième candidature par exemple
+        $application2 = new Application();
+        $application2->setAuthor('Pierre');
+        $application2->setContent("Je suis très motivé.");
+        $application2->setDate(new \DateTime());
+        // On lie les candidatures à l'annonce
+        $advert->addApplication($application1);
+        $advert->addApplication($application2);
+        $category1 = new Category();
+        $category1->setName("Web");
+        $category2 = new Category();
+        $category2->setName("BD");
+        // On boucle sur les catégories pour les lier à l'annonce
+        $advert->addCategory($category1);
+        $advert->addCategory($category2);
+        // // Liste des noms de compétences à ajouter
+        // $names = array('PHP', 'Symfony', 'C++', 'Java', 'Photoshop', 'Blender', 'Bloc-note');
+        // // On récupère l'EntityManager
+        $em = $this->getDoctrine()->getManager();
+        // foreach ($names as $name) {
+        //     // On crée la compétence
+        //     $skill = new Skill();
+        //     $skill->setName($name);
+        //     // On crée une nouvelle « relation entre 1 annonce et 1 compétence »
+        //     $advertSkill = new AdvertSkill();
+        //     // On la lie à l'annonce, qui est ici toujours la même
+        //     $advertSkill->setAdvert($advert);
+        //     // On la lie à la compétence, qui change ici dans la boucle foreach
+        //     $advertSkill->setSkill($skill);
+        //     // Arbitrairement, on dit que chaque compétence est requise au niveau 'Expert'
+        //     $advertSkill->setLevel('Expert');
+        //     // On la persiste
+        //     $em->persist($skill);
+        //     // Et bien sûr, on persiste cette entité de relation, propriétaire des deux autres relations
+        //     $em->persist($advertSkill);
+        // }
+        // Étape 1 : On « persiste » l'entité
+        $em->persist($advert);
+        // Étape 1 bis : si on n'avait pas défini le cascade={"persist"},
+        // on devrait persister à la main l'entité $image
+        // $em->persist($image);
+        // Étape 1 ter : pour cette relation pas de cascade lorsqu'on persiste Advert, car la relation est
+        // définie dans l'entité Application et non Advert. On doit donc tout persister à la main ici.
+        $em->persist($application1);
+        $em->persist($application2);
+        $em->persist($category1);
+        $em->persist($category2);
+        // Étape 2 : On déclenche l'enregistrement
+        $em->flush();
+        // Si on n'est pas en POST, alors on affiche le formulaire
+        return $this->redirectToRoute('oc_platform_view');
+    }
+
+    /**
      * @Route("/remove/", name="oc_platform_remove")
      */
     public function removeAction(Request $request)
@@ -236,28 +310,27 @@ class DefaultController extends Controller
         // On récupère l'annonce $id
         $advert = $em->getRepository('BayardTestPlatformBundle:Advert')->find($id);
 
-        if (null === $advert) {
-            throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+        $form = $this->createForm(AdvertType::class, $advert);
+        // $form = $this->get('form.factory')->create(AdvertType::class, $advert);
+
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($advert);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+
+                return $this->redirectToRoute('oc_platform_view', array('id' => $advert->getId()));
+            }
         }
 
-
-        // La méthode findAll retourne toutes les catégories de la base de données
-        $listCategories = $em->getRepository('BayardTestPlatformBundle:Category')->findAll();
-
-
-        // On boucle sur les catégories pour les lier à l'annonce
-        foreach ($listCategories as $category) {
-            $advert->addCategory($category);
-        }
-
-        // Pour persister le changement dans la relation, il faut persister l'entité propriétaire
-        // Ici, Advert est le propriétaire, donc inutile de la persister car on l'a récupérée depuis Doctrine
-
-        // Étape 2 : On déclenche l'enregistrement
-        $em->flush();
-
-        // … reste de la méthode
-        return $this->redirectToRoute('oc_platform_view');
+        return $this->render('@BayardTestPlatform/Default/add.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     /**
