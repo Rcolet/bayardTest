@@ -1,0 +1,16 @@
+{% extends "vueMere.html.twig" %}
+
+{% block title %}
+	{{ parent() }} - Index
+{% endblock %}
+
+{% block body %}
+	Listes des images encores enregistré :
+		{% for image in images %}
+		<br>- {{ image.id }} : {{ image.url }} <a href="{{ path('oc_platform_remove_image', {'id': image.id}) }}">(x)</a>
+	{% endfor %}
+{% endblock %}
+
+{% block footer %}
+	{{ include("@BayardTestPlatform/Default/footer.html.twig") }}
+{% endblock %}
