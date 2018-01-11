@@ -1,18 +1,26 @@
-<html>
-  <body>
-  		{% for advert in adverts %}
-			{% if advert.image is not null %}
-				<div>
-					<img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}">
-					<br>Hello {{ advert.author }} : {{ advert.date|date("m/d/Y") }}! <a href="{{ path('oc_platform_remove_advert', {'id': advert.id}) }}">(x)</a>
-					{% if not advert.categories.empty %}
-					<br>Catégoris :
-						{% for category in advert.categories %}
-						    <br>- {{ category.name }}{% if not loop.last %}; {% endif %}
-						{% endfor %}
-					{% endif %}
-				</div>
-			{% endif %}
+{% extends "vueMere.html.twig" %}
+
+{% block title %}
+	{{ parent() }} - Index
+{% endblock %}
+
+{% block body %}
+    {% for advert in adverts %}
+			<div>
+				{% if advert.image is not null %}
+					<img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}"> <a href="{{ path('oc_platform_remove_image_adverts', {'id':  advert.images.id}) }}">(x)</a>
+				{% endif %}
+				<br>Hello {{ advert.author }} : {{ advert.date|date("m/d/Y") }} <a href="{{ path('oc_platform_remove_advert', {'id': advert.id}) }}">(x)</a>
+				{% if not advert.categories.empty %}
+				<br>Catégoris :
+					{% for category in advert.categories %}
+					    <br>- {{ category.name }}{% if not loop.last %}; {% endif %}
+					{% endfor %}
+				{% endif %}
+			</div>
 		{% endfor %}
-  </body>
-</html>
+{% endblock %}
+
+{% block footer %}
+	{{ include("@BayardTestPlatform/Default/footer.html.twig") }}
+{% endblock %}
