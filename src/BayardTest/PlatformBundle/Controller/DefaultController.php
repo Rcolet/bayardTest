@@ -92,18 +92,15 @@ class DefaultController extends Controller
         // $form = $this->get('form.factory')->create(AdvertType::class, $advert);
 
 
-        if ($request->isMethod('POST')) {
-            $form->handleRequest($request);
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($advert);
-                $em->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($advert);
+            $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-                return $this->redirectToRoute('oc_platform_view', array('id' => $advert->getId()));
-            }
+            return $this->redirectToRoute('oc_platform_view', array('id' => $advert->getId()));
         }
 
         return $this->render('@BayardTestPlatform/Default/add.html.twig', array(
