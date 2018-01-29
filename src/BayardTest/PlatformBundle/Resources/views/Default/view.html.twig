@@ -1,18 +1,26 @@
-<html>
-  <body>
-  		{% for advert in adverts %}
-			{% if advert.image is not null %}
-				<div>
-					<img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}">
-					<br>Hello {{ advert.author }} : {{ advert.date|date("m/d/Y") }}!
-					{% if not advert.categories.empty %}
+{% extends "vueMere.html.twig" %}
+
+{% block title %}
+	{{ parent() }} - Index
+{% endblock %}
+
+{% block body %}
+	{% for advert in adverts %}
+		{% if advert.image is not null %}
+			<div>
+				<img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}">
+				<br>Hello {{ advert.author }} : {{ advert.date|date("m/d/Y") }}!
+				{% if not advert.categories.empty %}
 					<br>Catégoris :
-						{% for category in advert.categories %}
-						    <br>- {{ category.name }}{% if not loop.last %}; {% endif %}
-						{% endfor %}
-					{% endif %}
-				</div>
-			{% endif %}
-		{% endfor %}
-  </body>
-</html>
+					{% for category in advert.categories %}
+						<br>- {{ category.name }}{% if not loop.last %}; {% endif %}
+					{% endfor %}
+				{% endif %}
+			</div>
+		{% endif %}
+	{% endfor %}
+{% endblock %}
+
+{% block footer %}
+	{{ include("@BayardTestPlatform/Default/footer.html.twig") }}
+{% endblock %}
