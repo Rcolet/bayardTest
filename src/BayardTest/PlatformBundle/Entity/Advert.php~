@@ -6,12 +6,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use BayardTest\PlatformBundle\Validator\Antiflood;
+
 /**
  * Advert
  *
  * @ORM\Table(name="advert")
  * @ORM\Entity(repositoryClass="BayardTest\PlatformBundle\Repository\AdvertRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields="title", message="Une annonce existe déjà avec ce titre.")
  */
 class Advert
 {
@@ -28,13 +34,15 @@ class Advert
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
+     * @assert\DateTime()
      */
     private $date;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255, unique=true)
+     * @Assert\Length(min=10, minMessage="Le titre doit faire au moins {{ limit }} caractères.")
      */
     private $title;
 
@@ -42,6 +50,7 @@ class Advert
      * @var string
      *
      * @ORM\Column(name="author", type="string", length=255)
+     * @Assert\Length(min=2)
      */
     private $author;
 
@@ -49,6 +58,8 @@ class Advert
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     * @Assert\NotBlank()
+     * @Antiflood()
      */
     private $content;
 
@@ -58,19 +69,30 @@ class Advert
     private $published = true;
 
     /**
-    * @ORM\OneToOne(targetEntity="BayardTest\PlatformBundle\Entity\Image", cascade={"persist"})
-    * @ORM\JoinColumn(nullable=false)
+    * @var string
+    *
+    * @ORM\Column(name="ip", type="text")
+    * @Assert\Ip
+    */
+    private $ip;
+
+
+    /**
+    * @ORM\OneToOne(targetEntity="BayardTest\PlatformBundle\Entity\Image", cascade={"persist", "remove"})
+    * @ORM\JoinColumn(nullable=true)
+    * @Assert\Valid()
     */
     private $image;
 
     /**
-    * @ORM\ManyToMany(targetEntity="BayardTest\PlatformBundle\Entity\Category", cascade={"persist"})
+    * @ORM\ManyToMany(targetEntity="BayardTest\PlatformBundle\Entity\Category", cascade={"persist", "remove"})
+    * @ORM\JoinColumn(nullable=true)
     */
     private $categories;
 
     /**
-    * @ORM\OneToMany(targetEntity="BayardTest\PlatformBundle\Entity\Application", mappedBy="advert")
-    * @ORM\JoinColumn(nullable=false)
+    * @ORM\OneToMany(targetEntity="BayardTest\PlatformBundle\Entity\Application", mappedBy="advert", cascade={"remove"})
+    * @ORM\JoinColumn(nullable=true)
     */
     private $applications;
 
@@ -89,6 +111,7 @@ class Advert
         // Par défaut, la date de l'annonce est la date d'aujourd'hui
         $this-> date = new \Datetime();
         $this->categories = new ArrayCollection();
+        $this->applications = new ArrayCollection();
     }
 
     /**
@@ -394,5 +417,47 @@ class Advert
     public function decreaseApplication()
     {
         $this->nbApplications--;
+    }
+
+    /**
+     * Set slug.
+     *
+     * @param string $slug
+     *
+     * @return Advert
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug.
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function isContentValid(ExecutionContextInterface $context)
+    {
+        $forbiddenWords = array('démotivation', 'abandon');
+
+        // On vérifie que le contenu ne contient pas l'un des mots
+        if (preg_match('#'.implode('|', $forbiddenWords).'#', $this->getContent())) {
+            // La règle est violée, on définit l'erreur
+            $context
+                ->buildViolation('Contenu invalide car il contient un mot interdit.') // message
+                ->atPath('content')                                                   // attribut de l'objet qui est violé
+                ->addViolation() // ceci déclenche l'erreur, ne l'oubliez pas
+            ;
+        }
     }
 }

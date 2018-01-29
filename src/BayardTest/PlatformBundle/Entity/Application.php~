@@ -5,11 +5,14 @@ namespace BayardTest\PlatformBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use BayardTest\PlatformBundle\Entity\Advert;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Application
  *
  * @ORM\Table(name="application")
  * @ORM\Entity(repositoryClass="BayardTest\PlatformBundle\Repository\ApplicationRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Application
 {
@@ -44,10 +47,18 @@ class Application
     private $date;
 
     /**
-    * @ORM\ManyToOne(targetEntity="Advert", inversedBy="application")
+    * @ORM\ManyToOne(targetEntity="Advert", inversedBy="applications")
     * @ORM\JoinColumn(nullable=false)
     */
     private $advert;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="ip", type="text")
+    * @Assert\Ip
+    */
+    private $ip;
 
 
     /**
@@ -154,5 +165,22 @@ class Application
     public function getAdvert()
     {
         return $this->advert;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function increase()
+    {
+        $this->getAdvert()->increaseApplication();
+    }
+
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function decrease()
+    {
+        $this->getAdvert()->decreaseApplication();
     }
 }
