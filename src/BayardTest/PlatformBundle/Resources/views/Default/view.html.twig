@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+<<<<<<< HEAD
 	<h3><a href="{{ path('oc_platform_add') }}">(Ajouter)</a></h3>
     {% for advert in adverts %}
 			<div>
@@ -24,6 +25,22 @@
 				<h3> <a href="{{ path('oc_platform_edit', {'id': advert.id}) }}">(Modifier)</a></h3>
 			</div>
 		{% endfor %}
+=======
+	{% for advert in adverts %}
+		{% if advert.image is not null %}
+			<div>
+				<img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}">
+				<br>Hello {{ advert.author }} : {{ advert.date|date("m/d/Y") }}!
+				{% if not advert.categories.empty %}
+					<br>Catégoris :
+					{% for category in advert.categories %}
+						<br>- {{ category.name }}{% if not loop.last %}; {% endif %}
+					{% endfor %}
+				{% endif %}
+			</div>
+		{% endif %}
+	{% endfor %}
+>>>>>>> master
 {% endblock %}
 
 {% block footer %}

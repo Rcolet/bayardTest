@@ -45,6 +45,9 @@
 		{{ form_row(form.categories) }}
   		<a href="#" id="add_category" class="btn btn-default">Ajouter une catégorie</a>
 
+		{# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
+		{{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+
 		{# Génération automatique des champs pas encore écrits.
 		Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
 		et tous les champs cachés (type « hidden »). #}
@@ -57,8 +60,8 @@
 		{{ form_end(form) }}
 	</div>
 
-	{# On charge la bibliothèque jQuery. Ici, je la prends depuis le CDN google
-   	mais si vous l'avez en local, changez simplement l'adresse. #}
+	{# On charge la bibliothèque jQuery. Ici, je la prends depuis le CDN google mais si vous l'avez en local, changez simplement l'adresse. #}
+
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 	{# Voici le script en question : #}
