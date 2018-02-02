@@ -26,6 +26,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 use BayardTest\PlatformBundle\Form\AdvertType;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 
 /**
      * @Route("/platform")
@@ -83,9 +85,16 @@ class DefaultController extends Controller
 
     /**
      * @Route("/add", name="oc_platform_add")
+     * @Security("has_role('ROLE_AUTEUR')")
      */
     public function addAction(Request $request)
     {   
+        /*// On vérifie que l'utilisateur dispose bien du rôle ROLE_AUTEUR
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_AUTEUR')) {
+            // Sinon on déclenche une exception « Accès interdit »
+            throw new AccessDeniedException('Accès limité aux auteurs.');
+        }*/
+
         $advert = new Advert();
 
         $form = $this->createForm(AdvertType::class, $advert);

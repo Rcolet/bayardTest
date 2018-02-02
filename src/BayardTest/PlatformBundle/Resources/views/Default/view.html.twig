@@ -5,7 +5,10 @@
 {% endblock %}
 
 {% block body %}
-	<h3><a href="{{ path('oc_platform_add') }}">(Ajouter)</a></h3>
+
+	{% if is_granted('ROLE_AUTEUR') %}
+		<h3><a href="{{ path('oc_platform_add') }}">(Ajouter)</a></h3>
+	{% endif %}
     {% for advert in adverts %}
 			<div>
 				{% if advert.image is not null %}
@@ -14,14 +17,19 @@
 						alt="{{ advert.image.alt }}"
 					/>
 				{% endif %}
-				<br>Hello {{ advert.author }} : {{ advert.date|date("m/d/Y") }} <a href="{{ path('oc_platform_remove_advert', {'id': advert.id}) }}">(x)</a>
+				<br>Hello {{ advert.author }} : {{ advert.date|date("m/d/Y") }} 
+					{% if is_granted('ROLE_ADMIN') %}
+						<a href="{{ path('oc_platform_remove_advert', {'id': advert.id}) }}">(x)</a>
+					{% endif %}
 				{% if not advert.categories.empty %}
 				<br>Catégoris :
 					{% for category in advert.categories %}
 					    <br>- {{ category.name }}{% if not loop.last %}; {% endif %}
 					{% endfor %}
 				{% endif %}
-				<h3> <a href="{{ path('oc_platform_edit', {'id': advert.id}) }}">(Modifier)</a></h3>
+				{% if is_granted('ROLE_MODERATEUR') %}
+					<h3> <a href="{{ path('oc_platform_edit', {'id': advert.id}) }}">(Modifier)</a></h3>
+				{% endif %}
 			</div>
 		{% endfor %}
 {% endblock %}

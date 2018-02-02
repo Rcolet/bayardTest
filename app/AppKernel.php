@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new BayardTest\PlatformBundle\BayardTestPlatformBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+            new BayardTest\UserBundle\BayardTestUserBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
