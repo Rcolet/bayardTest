@@ -29,6 +29,7 @@ use BayardTest\PlatformBundle\Form\AdvertType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
+
 /**
      * @Route("/platform")
      */
@@ -37,9 +38,18 @@ class DefaultController extends Controller
 
 	/**
      * @Route("/", name="bayardtest_platform_home")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function indexAction(Request $request)
     {
+        /*// On vérifie que l'utilisateur dispose bien du rôle ROLE_ADMIN
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+          // Sinon on déclenche une exception « Accès interdit »
+          throw new AccessDeniedException('Accès limité à l\'admin.');
+        }
+
+        // Ici l'utilisateur a les droits suffisant,*/
+
     	/*$url = array('year'   => 2012,
     				 'slug'   => 'hello',
     				 'format' => 'html');*/
