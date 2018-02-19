@@ -36,14 +36,14 @@ class DefaultController extends Controller
 {
 
 	/**
-     * @Route("/", name="oc_platform_home")
+     * @Route("/", name="bayardtest_platform_home")
      */
     public function indexAction(Request $request)
     {
     	/*$url = array('year'   => 2012,
     				 'slug'   => 'hello',
     				 'format' => 'html');*/
-    	$url = $this->get('router')->generate('oc_platform_view_slug', 
+    	$url = $this->get('router')->generate('bayardtest_platform_view_slug', 
     		   array('year'   => 2012,
     				 'slug'   => 'hello',
     				 'format' => 'html')
@@ -52,7 +52,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/view", name="oc_platform_view")
+     * @Route("/view", name="bayardtest_platform_view")
      */
     public function viewAction(Request $request)
     {
@@ -68,7 +68,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/view/images", name="oc_platform_view_images")
+     * @Route("/view/images", name="bayardtest_platform_view_images")
      */
     public function viewImagesAction(Request $request)
     {
@@ -84,7 +84,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/add", name="oc_platform_add")
+     * @Route("/add", name="bayardtest_platform_add")
      * @Security("has_role('ROLE_AUTEUR')")
      */
     public function addAction(Request $request)
@@ -109,7 +109,7 @@ class DefaultController extends Controller
 
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-            return $this->redirectToRoute('oc_platform_view', array('id' => $advert->getId()));
+            return $this->redirectToRoute('bayardtest_platform_view', array('id' => $advert->getId()));
         }
 
         return $this->render('@BayardTestPlatform/Default/add.html.twig', array(
@@ -118,7 +118,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/addAuto", name="oc_platform_add_auto")
+     * @Route("/addAuto", name="bayardtest_platform_add_auto")
      */
     public function addAutoAction(Request $request)
     {   
@@ -188,11 +188,11 @@ class DefaultController extends Controller
         // Étape 2 : On déclenche l'enregistrement
         $em->flush();
         // Si on n'est pas en POST, alors on affiche le formulaire
-        return $this->redirectToRoute('oc_platform_view');
+        return $this->redirectToRoute('bayardtest_platform_view');
     }
 
     /**
-     * @Route("/remove/", name="oc_platform_remove")
+     * @Route("/remove/", name="bayardtest_platform_remove")
      */
     public function removeAction(Request $request)
     {
@@ -205,11 +205,11 @@ class DefaultController extends Controller
         }
         $em->flush();
 
-        return $this->redirectToRoute('oc_platform_view');
+        return $this->redirectToRoute('bayardtest_platform_view');
     }
 
     /**
-     * @Route("/remove/advert/{id}", name="oc_platform_remove_advert")
+     * @Route("/remove/advert/{id}", name="bayardtest_platform_remove_advert")
      */
     public function removeAdvertAction(Request $request, $id)
     {
@@ -219,11 +219,11 @@ class DefaultController extends Controller
         $em->remove($advert);
         $em->flush();
 
-        return $this->redirectToRoute('oc_platform_view');
+        return $this->redirectToRoute('bayardtest_platform_view');
     }
 
     /**
-     * @Route("/remove/image/adverts/{id}", name="oc_platform_remove_image_adverts")
+     * @Route("/remove/image/adverts/{id}", name="bayardtest_platform_remove_image_adverts")
      */
     public function removeImageByAdvertsAction(Request $request, $id)
     {
@@ -238,11 +238,11 @@ class DefaultController extends Controller
         
         $em->flush();
 
-        return $this->redirectToRoute('oc_platform_view');
+        return $this->redirectToRoute('bayardtest_platform_view');
     }
 
     /**
-     * @Route("/remove/image/{id}", name="oc_platform_remove_image")
+     * @Route("/remove/image/{id}", name="bayardtest_platform_remove_image")
      */
     public function removeImageAction(Request $request, $id)
     {
@@ -252,13 +252,13 @@ class DefaultController extends Controller
         $em->remove($advert);
         $em->flush();
 
-        return $this->redirectToRoute('oc_platform_view');
+        return $this->redirectToRoute('bayardtest_platform_view');
     }
 
 
     ////////////////////////////Va prendre en comptre le "_" de format et va faire comptre au Kernel le formar que l'on donne
     // /**
-    //  * @Route("/{year}/{slug}.{_format}", name="oc_platform_view_slug", requirements={"year"="\d{4}", "format"="html|xml"})
+    //  * @Route("/{year}/{slug}.{_format}", name="bayardtest_platform_view_slug", requirements={"year"="\d{4}", "format"="html|xml"})
     //  */
     // public function slugAction(Request $request, $year, $slug, $_format)
     // {
@@ -266,7 +266,7 @@ class DefaultController extends Controller
     // }
 
     /**
-     * @Route("/{year}/{slug}.{format}", name="oc_platform_view_slug", requirements={"year"="\d{4}", "format"="html|xml"})
+     * @Route("/{year}/{slug}.{format}", name="bayardtest_platform_view_slug", requirements={"year"="\d{4}", "format"="html|xml"})
      */
     public function slugAction(Request $request, $year, $slug, $format)
     {
@@ -275,18 +275,18 @@ class DefaultController extends Controller
 
 
     /**
-     * @Route("/redirect/index", name="oc_platform_redirect_index")
+     * @Route("/redirect/index", name="bayardtest_platform_redirect_index")
      */
     public function redirectIndexAction(Request $request)
     {
-		$url = $this->get('router')->generate('oc_platform_home');
+		$url = $this->get('router')->generate('bayardtest_platform_home');
     	return new RedirectResponse($url);
     	//return $this->redirect($url);
-    	//return $this->redirectToRoute('oc_platform_home');
+    	//return $this->redirectToRoute('bayardtest_platform_home');
     }
 
     /**
-     * @Route("/menu", name="oc_platform_menu")
+     * @Route("/menu", name="bayardtest_platform_menu")
      */
     public function menuAction(Request $request)
     {
@@ -307,7 +307,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}", name="oc_platform_edit")
+     * @Route("/edit/{id}", name="bayardtest_platform_edit")
      */
     public function editAction($id, Request $request)
     {
@@ -330,7 +330,7 @@ class DefaultController extends Controller
 
                 $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-                return $this->redirectToRoute('oc_platform_view', array('id' => $advert->getId()));
+                return $this->redirectToRoute('bayardtest_platform_view', array('id' => $advert->getId()));
             }
         }
 
@@ -340,7 +340,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/remove/{id}", name="oc_platform_remove")
+     * @Route("/remove/{id}", name="bayardtest_platform_remove")
      */
     public function deleteAction($id)
     {
@@ -365,11 +365,11 @@ class DefaultController extends Controller
         $em->flush();
 
         // ...
-        return $this->redirectToRoute('oc_platform_view');
+        return $this->redirectToRoute('bayardtest_platform_view');
     }
 
     /**
-     * @Route("/advert/category/{cat}", name="oc_platform_advert_category")
+     * @Route("/advert/category/{cat}", name="bayardtest_platform_advert_category")
      */
     public function listAdvertWithCategoriesAction($cat)
     {
@@ -387,7 +387,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/application/advert/{limit}", name="oc_platform_application_advert")
+     * @Route("/application/advert/{limit}", name="bayardtest_platform_application_advert")
      */
     public function advertApplicationAction($limit)
     {
@@ -404,7 +404,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/advert/update", name="oc_platform_advert_update")
+     * @Route("/advert/update", name="bayardtest_platform_advert_update")
      */
     public function advertUpdateAction()
     {
@@ -419,11 +419,11 @@ class DefaultController extends Controller
 
         $em->flush();
 
-        return $this->redirectToRoute('oc_platform_view');
+        return $this->redirectToRoute('bayardtest_platform_view');
     }
 
     /**
-     * @Route("/test/slug", name="oc_platform_test_slug")
+     * @Route("/test/slug", name="bayardtest_platform_test_slug")
      */
     public function testSlugAction()
     {

@@ -7,7 +7,7 @@
 {% block body %}
 
 	{% if is_granted('ROLE_AUTEUR') %}
-		<h3><a href="{{ path('oc_platform_add') }}">(Ajouter)</a></h3>
+		<h3><a href="{{ path('bayardtest_platform_add') }}">(Ajouter)</a></h3>
 	{% endif %}
     {% for advert in adverts %}
 			<div>
@@ -19,7 +19,7 @@
 				{% endif %}
 				<br>Hello {{ advert.author }} : {{ advert.date|date("m/d/Y") }} 
 					{% if is_granted('ROLE_ADMIN') %}
-						<a href="{{ path('oc_platform_remove_advert', {'id': advert.id}) }}">(x)</a>
+						<a href="{{ path('bayardtest_platform_remove_advert', {'id': advert.id}) }}">(x)</a>
 					{% endif %}
 				{% if not advert.categories.empty %}
 				<br>Catégoris :
@@ -28,7 +28,7 @@
 					{% endfor %}
 				{% endif %}
 				{% if is_granted('ROLE_MODERATEUR') %}
-					<h3> <a href="{{ path('oc_platform_edit', {'id': advert.id}) }}">(Modifier)</a></h3>
+					<h3> <a href="{{ path('bayardtest_platform_edit', {'id': advert.id}) }}">(Modifier)</a></h3>
 				{% endif %}
 			</div>
 		{% endfor %}
