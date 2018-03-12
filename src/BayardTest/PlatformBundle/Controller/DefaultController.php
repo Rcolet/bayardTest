@@ -119,7 +119,7 @@ class DefaultController extends Controller
 
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-            return $this->redirectToRoute('bayardtest_platform_view', array('id' => $advert->getId()));
+            return $this->redirectToRoute('bayardtest_platform_view');
         }
 
         return $this->render('@BayardTestPlatform/Default/add.html.twig', array(

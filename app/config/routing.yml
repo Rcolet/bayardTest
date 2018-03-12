@@ -20,3 +20,13 @@ login_check:
 
 logout:
     path: /logout
+
+sign_in:
+    path: /sign_in
+    defaults:
+        _controller: BayardTestUserBundle:Security:sign_in
+
+sign_up:
+    path: /sign_up
+    defaults:
+        _controller: BayardTestUserBundle:Security:sign_up
