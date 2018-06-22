@@ -8,9 +8,27 @@
 			<script src="{{ asset('js/jquery.min.js') }}"></script>
 			<script src="{{ asset('js/bootstrap.js') }}"></script>
 		{% endblock %}
+		<style>
+			body{
+				padding-left: 25px;
+			}
+		</style>
 	</head>
 	<body>
-		<h1>OpenClassRoom</h1>
+		<table align="center" width="100%" cellspacing="0" cellpadding="0">
+		   <tr>
+		       <td>
+		       		<h1>
+		       			OpenClassRoom
+		       		</h1>
+		       	</td>
+		       <td>
+					<a type="button" class="btn btn-default btn-sm" href="{{ path('logout') }}">
+						<span class="glyphicon glyphicon-log-out"></span> Log out
+					</a>
+		       </td>
+		   </tr>
+		</table>
 		{% block body %}
 		{% endblock %}
 	</body>

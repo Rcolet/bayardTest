@@ -28,15 +28,13 @@ use BayardTest\PlatformBundle\Form\AdvertType;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-
-
 /**
      * @Route("/platform")
      */
 class DefaultController extends Controller
 {
 
-	/**
+    /**
      * @Route("/", name="bayardtest_platform_home")
      * @Security("has_role('ROLE_ADMIN')")
      */
@@ -50,14 +48,19 @@ class DefaultController extends Controller
 
         // Ici l'utilisateur a les droits suffisant,*/
 
-    	/*$url = array('year'   => 2012,
-    				 'slug'   => 'hello',
-    				 'format' => 'html');*/
-    	$url = $this->get('router')->generate('bayardtest_platform_view_slug', 
-    		   array('year'   => 2012,
-    				 'slug'   => 'hello',
-    				 'format' => 'html')
-    		   , UrlGeneratorInterface::ABSOLUTE_URL);
+        /*$url = array('year'   => 2012,
+                     'slug'   => 'hello',
+                     'format' => 'html');*/
+        $url = $this->get('router')
+                    ->generate(
+                        'bayardtest_platform_view_slug',
+                        array(
+                            'year'   => 2012,
+                                'slug'   => 'hello',
+                                'format' => 'html'
+                            ),
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    );
         return $this->render('@BayardTestPlatform/Default/index.html.twig', array('url' => $url));
     }
 
@@ -74,7 +77,7 @@ class DefaultController extends Controller
             throw new NotFoundHttpException("la table application est vide");
         }
 
-    	return $this->render('@BayardTestPlatform/Default/view.html.twig', array('adverts' => $adverts));
+        return $this->render('@BayardTestPlatform/Default/view.html.twig', array('adverts' => $adverts));
     }
 
     /**
@@ -98,7 +101,7 @@ class DefaultController extends Controller
      * @Security("has_role('ROLE_AUTEUR')")
      */
     public function addAction(Request $request)
-    {   
+    {
         /*// On vérifie que l'utilisateur dispose bien du rôle ROLE_AUTEUR
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_AUTEUR')) {
             // Sinon on déclenche une exception « Accès interdit »
@@ -112,7 +115,6 @@ class DefaultController extends Controller
 
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($advert);
             $em->flush();
@@ -131,7 +133,7 @@ class DefaultController extends Controller
      * @Route("/addAuto", name="bayardtest_platform_add_auto")
      */
     public function addAutoAction(Request $request)
-    {   
+    {
         // Création de l'entité Advert
         $advert = new Advert();
         $advert->setTitle('Recherche développeur Symfony.');
@@ -210,7 +212,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $advert = $em->getRepository('BayardTestPlatformBundle:Advert')->findByAuthor("Alexandre");
-        foreach ($advert as  $tmp) {
+        foreach ($advert as $tmp) {
             $em->remove($tmp);
         }
         $em->flush();
@@ -280,7 +282,7 @@ class DefaultController extends Controller
      */
     public function slugAction(Request $request, $year, $slug, $format)
     {
-    	return $this->render('@BayardTestPlatform/Default/slug.html.twig', ['year' => $year, 'slug' => $slug, 'format' => $format]);
+        return $this->render('@BayardTestPlatform/Default/slug.html.twig', ['year' => $year, 'slug' => $slug, 'format' => $format]);
     }
 
 
@@ -289,10 +291,10 @@ class DefaultController extends Controller
      */
     public function redirectIndexAction(Request $request)
     {
-		$url = $this->get('router')->generate('bayardtest_platform_home');
-    	return new RedirectResponse($url);
-    	//return $this->redirect($url);
-    	//return $this->redirectToRoute('bayardtest_platform_home');
+        $url = $this->get('router')->generate('bayardtest_platform_home');
+        return new RedirectResponse($url);
+        //return $this->redirect($url);
+        //return $this->redirectToRoute('bayardtest_platform_home');
     }
 
     /**
@@ -313,7 +315,6 @@ class DefaultController extends Controller
             // les variables nécessaires au template !
             'listAdverts' => $listAdverts
         ));
-
     }
 
     /**

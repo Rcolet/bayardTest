@@ -16,18 +16,21 @@ class UserType extends AbstractType
     {
         $builder->add('username')
             ->add('password')
-            ->add('roles', ChoiceType::class, array(
-                'choices'   => array(
-                    'ROLE_USER'   => 'ROLE_USER',
-                    'ROLE_AUTEUR'    => 'ROLE_AUTEUR',
-                    'ROLE_MODERATEUR'   => 'ROLE_MODERATEUR',
-                    'ROLE_ADMIN'    => 'ROLE_ADMIN',
-                    'ROLE_SUPER_ADMIN'    => 'ROLE_SUPER_ADMIN'
+            ->add(
+                'roles',
+                ChoiceType::class,
+                array(
+                    'choices'   => array(
+                        'ROLE_USER'   => 'ROLE_USER',
+                        'ROLE_AUTEUR'    => 'ROLE_AUTEUR',
+                        'ROLE_MODERATEUR'   => 'ROLE_MODERATEUR',
+                        'ROLE_ADMIN'    => 'ROLE_ADMIN',
+                        'ROLE_SUPER_ADMIN'    => 'ROLE_SUPER_ADMIN'
                 ),
                 'multiple'  => true,
                 'expanded'  => true
-            )
-        );
+                )
+            );
     }
 
     /**
@@ -47,6 +50,4 @@ class UserType extends AbstractType
     {
         return 'bayardtest_userbundle_user';
     }
-
-
 }
