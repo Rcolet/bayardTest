@@ -17,3 +17,18 @@
 /web/bundles/
 /web/uploads/
 composer.lock
+features.zip
+web/reports/codeception/
+!web/reports/codeception/.gitkeep
+# DOCKER
+/docker/mysql/data/
+!/docker/mysql/data/.gitkeep
+/docker/phpsocket/
+!/docker/phpsocket/.gitkeep
+# OTHERS
+*.nogit*
+*.idea
+*.php~
+*.lnk
+.env
+

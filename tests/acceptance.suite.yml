@@ -1,0 +1,40 @@
+# Codeception Test Suite Configuration
+#
+# Suite for acceptance tests.
+# Perform tests in browser using the WebDriver or PhpBrowser.
+# If you need both WebDriver and PHPBrowser tests - create a separate suite.
+
+actor: AcceptanceTester
+modules:
+    enabled:
+        - Symfony:
+            app_path: 'app'
+            var_path: 'var'
+            environment: 'test'
+        - Doctrine2:
+            depends: Symfony
+        - Asserts
+        - \Helper\Acceptance
+env:
+    selenium:
+        extensions:
+            enabled:
+                - Codeception\Extension\RunProcess:
+                    0: /usr/local/bin/php bin/console server:run
+                    1: java -Dwebdriver.gecko.driver=./geckodriver -jar selenium-server-standalone-3.13.0.jar
+                    sleep: 6
+        modules:
+            enabled:
+                - WebDriver:
+                    url: 'http://localhost:8000/'
+                    browser: firefox
+                    port: 4444
+                    window_size: false
+                    capabilities:
+                        unexpectedAlertBehaviour: 'accept'
+                    # capabilities:
+                    #     chromeOptions:
+                    #         args: ["--start-maximized", "--disable-extensions", "--enable-automation"]
+            config:
+                Symfony:
+                    part: SERVICES

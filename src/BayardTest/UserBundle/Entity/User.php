@@ -2,7 +2,6 @@
 
 namespace BayardTest\UserBundle\Entity;
 
-
 use Symfony\Component\Security\Core\User\UserInterface;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -151,5 +150,4 @@ class User implements UserInterface
     public function eraseCredentials()
     {
     }
-
 }

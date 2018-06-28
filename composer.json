@@ -13,8 +13,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/",
-            "Acme\\Tests\\Behat\\Context\\": "features/context/"
+            "BayardTest\\Tests\\Codeception\\": "tests/"
         },
         "files": [
             "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
@@ -44,14 +43,9 @@
         "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {
+        "codeception/codeception": "^2.4",
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0",
-        "behat/behat": "~3.4",
-        "behat/symfony2-extension": "~2.1",
-        "behat/mink": "~1.7",
-        "behat/mink-extension": "~2.3",
-        "behat/mink-selenium2-driver": "~1.3",
-        "emuse/behat-html-formatter": "dev-master"
+        "symfony/phpunit-bridge": "^3.0"
     },
     "scripts": {
         "symfony-scripts": [

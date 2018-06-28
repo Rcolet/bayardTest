@@ -23,9 +23,11 @@
 		       		</h1>
 		       	</td>
 		       <td>
-					<a type="button" class="btn btn-default btn-sm" href="{{ path('logout') }}">
-						<span class="glyphicon glyphicon-log-out"></span> Log out
-					</a>
+			   		{% if app.user %}
+						<a type="button" class="btn btn-default btn-sm" href="{{ path('logout') }}">
+							<span class="glyphicon glyphicon-log-out"></span>Logout
+						</a>
+ 					{% endif %}
 		       </td>
 		   </tr>
 		</table>

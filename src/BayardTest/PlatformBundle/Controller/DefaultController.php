@@ -40,28 +40,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        /*// On vérifie que l'utilisateur dispose bien du rôle ROLE_ADMIN
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-          // Sinon on déclenche une exception « Accès interdit »
-          throw new AccessDeniedException('Accès limité à l\'admin.');
-        }
-
-        // Ici l'utilisateur a les droits suffisant,*/
-
-        /*$url = array('year'   => 2012,
-                     'slug'   => 'hello',
-                     'format' => 'html');*/
-        $url = $this->get('router')
-                    ->generate(
-                        'bayardtest_platform_view_slug',
-                        array(
-                            'year'   => 2012,
-                                'slug'   => 'hello',
-                                'format' => 'html'
-                            ),
-                        UrlGeneratorInterface::ABSOLUTE_URL
-                    );
-        return $this->render('@BayardTestPlatform/Default/index.html.twig', array('url' => $url));
+        return $this->render('@BayardTestPlatform/Default/index.html.twig');
     }
 
     /**

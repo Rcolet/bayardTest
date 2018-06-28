@@ -6,7 +6,6 @@ namespace BayardTest\UserBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use BayardTest\UserBundle\Entity\User;
-use BayardTest\UserBundle\Form\UserType;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends Controller
@@ -21,29 +20,6 @@ class SecurityController extends Controller
         return $this->render('BayardTestUserBundle:Security:login.html.twig', array(
             'last_username' => $authenticationUtils->getLastUsername(),
             'error'         => $authenticationUtils->getLastAuthenticationError(),
-        ));
-    }
-
-    public function sign_upAction(Request $request)
-    {
-        $user = new User();
-        $user->setSalt('');
-
-        $form = $this->createForm(UserType::class, $user);
-
-        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
-
-            return $this->redirectToRoute('login');
-        }
-
-        return $this->render('@BayardTestUser/Security/sign_up.html.twig', array(
-            'form' => $form->createView(),
         ));
     }
 }

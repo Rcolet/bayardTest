@@ -22,9 +22,9 @@ logout:
     path: /logout
 
 sign_in:
-    path: /sign_in
+    path: /registrer
     defaults:
-        _controller: BayardTestUserBundle:Security:sign_in
+        _controller: BayardTestUserBundle:Registration:registrer
 
 sign_up:
     path: /sign_up

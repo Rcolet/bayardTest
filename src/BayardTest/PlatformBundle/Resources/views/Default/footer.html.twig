@@ -7,4 +7,7 @@
 		remi.colet@Bayard-presse.com
 	</a>
 	.
+	{% if is_granted('ROLE_ADMIN') %}
+		<h3><a href="{{ path('sign_in') }}">(Ajouter Utilisateur)</a></h3>
+	{% endif %}
 </p>

@@ -1,0 +1,64 @@
+version: '3'
+
+volumes:
+    database_data:
+        driver: local
+    phpsocket:
+
+services:
+    mysql:
+        image: mysql:5.7
+        container_name: st_mysql
+        ports:
+            - ${DATABASE_HOST_PORT}:3306
+        expose:
+            - 3306
+        volumes:
+            - ./docker/mysql/data/:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${DATABASE_NAME}
+            MYSQL_USER: ${DATABASE_USER}
+            MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+
+    php:
+        image: php:fpm-alpine
+        container_name: st_phpfpm
+        privileged: true
+        env_file:
+            - .env
+        environment:
+            PHP_MEMORY_LIMIT: -1
+            APPLICATION_ENV: development
+        volumes:
+            - ./:/var/www/
+            - ./docker/phpsocket:/run/php-fpm
+        expose:
+            - 9000
+        working_dir: /var/www/
+        links:
+            - mysql:mysql
+
+    httpd:
+        depends_on:
+            - php
+        image: http:alpine
+        container_name: st_httpd
+        ports:
+            - ${WWW_HOST_PORT}:80
+        env_file:
+            - .env
+        environment:
+            WWW_PHP_HOSTNAME: php
+            WWW_APP_HOSTNAME: ${WWW_APP_NAME}.local
+            APPLICATION_ENV: development
+        volumes:
+            - ./:/var/www/
+            - ./docker/phpsocket:/run/php-fpm
+        expose:
+            - 80
+            - 443
+        domainname: local
+        working_dir: /var/www/
+        links:
+            - mysql:mysql
