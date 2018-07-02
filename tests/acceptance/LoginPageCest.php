@@ -39,12 +39,10 @@ class LoginPageCest
     public function tryToConnectTest(\AcceptanceTester $I, \Codeception\Example $example)
     {
         $I->amOnPage("/login");
-        $I->wait(10);
-        // $I->wait(100);
-        // $I->fillField("_username", $example["username"]);
-        // $I->fillField("_password", $example["password"]);
-        // $I->click('Connexion');
-        // $I->seeInCurrentUrl("/platform/view");
-        // $I->seeLink("Logout");
+        $I->fillField("_username", $example["username"]);
+        $I->fillField("_password", $example["password"]);
+        $I->click('Connexion');
+        $I->seeInCurrentUrl("/platform/view");
+        $I->seeLink("Logout");
     }
 }

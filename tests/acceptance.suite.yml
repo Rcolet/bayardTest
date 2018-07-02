@@ -26,15 +26,14 @@ env:
         modules:
             enabled:
                 - WebDriver:
-                    url: 'http://localhost:8000/'
-                    browser: firefox
-                    port: 4444
+                    url: 'http://bayardtest.local:80/'
+                    browser: chrome
                     window_size: false
+                    host: selenium
+                    port: 4444
                     capabilities:
-                        unexpectedAlertBehaviour: 'accept'
-                    # capabilities:
-                    #     chromeOptions:
-                    #         args: ["--start-maximized", "--disable-extensions", "--enable-automation"]
+                        chromeOptions:
+                            args: ["--start-maximized", "--disable-extensions", "--enable-automation"]
             config:
                 Symfony:
                     part: SERVICES
