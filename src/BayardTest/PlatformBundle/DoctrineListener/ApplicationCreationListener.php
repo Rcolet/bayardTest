@@ -24,7 +24,7 @@ class ApplicationCreationListener
 
         // On ne veut envoyer un email que pour les entités Application
         if (!$entity instanceof Application) {
-          return;
+            return;
         }
 
         $this->applicationMailer->sendNewNotification($entity);
