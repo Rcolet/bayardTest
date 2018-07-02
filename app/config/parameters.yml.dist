@@ -3,9 +3,9 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     database_host: mysql
-    database_port: ~
-    database_name: symfony
-    database_user: root
+    database_port: 3306
+    database_name: ~
+    database_user: ~
     database_password: ~
     # You should uncomment this if you want to use pdo_sqlite
     #database_path: '%kernel.project_dir%/var/data/data.sqlite'
