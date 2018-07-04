@@ -2,7 +2,7 @@ FROM php:7.2-fpm-alpine
 
 # Install git
 RUN apk update
-RUN apk add --no-cache git
+RUN apk add --no-cache git gzip
 RUN docker-php-ext-install pdo_mysql opcache
 
 # install composer

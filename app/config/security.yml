@@ -31,7 +31,7 @@ security:
             anonymous: true
         main:
             pattern:   ^/
-            anonymous: true
+            anonymous: false
             provider: main
             form_login:
                 login_path: login
@@ -42,6 +42,7 @@ security:
                 target:     login
 
     access_control:
+        - { path: ^/registrer, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/, roles: [ROLE_AUTEUR, ROLE_MODERATEUR, ROLE_USER]}
